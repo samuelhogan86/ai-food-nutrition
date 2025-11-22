@@ -1,0 +1,1 @@
+#Map 101 food classes to nutrition info from https://fdc.nal.usda.gov/, nutritionix or something else
