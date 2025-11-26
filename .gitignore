@@ -2,3 +2,4 @@ data/raw/
 data/processed
 data_loader_test.png
 venv/
+src/__pycache__/
