@@ -1,8 +1,6 @@
 import kagglehub
 import os
-from PIL import Image
 import shutil
-import matplotlib.pyplot as plt
 
 DATASET_DIR = os.path.join(os.path.dirname(__file__), "../data/raw/food41")
 
