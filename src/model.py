@@ -5,6 +5,7 @@ This file provides `BasicBlock` and `ResNet18` used by the training script.
 Keep this file minimal — training and data loading live in `train.py` and `data_loader.py`.
 """
 import torch.nn as nn
+from torchvision.models import resnet18, ResNet18_Weights
 
 
 class BasicBlock(nn.Module):
@@ -86,5 +87,10 @@ class ResNet18(nn.Module):
 
 
 def build_model(num_classes):
-	"""Convenience factory for creating a ResNet18 instance."""
-	return ResNet18(num_classes=num_classes)
+	# Load pretrained ResNet-18
+    model = resnet18(weights=ResNet18_Weights.DEFAULT)
+
+    # Replace final FC layer
+    model.fc = nn.Linear(512, num_classes)
+
+    return model

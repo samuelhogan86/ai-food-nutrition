@@ -10,8 +10,10 @@ batch_size = 32      #originally ran at 8, would like to have 32
 num_epochs = 15      #originally ran at 1, would like to have 15
 learning_rate = 0.001
 
+print(torch.cuda.is_available())
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
+
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 data_dir = os.path.join(ROOT, "data", "processed")
@@ -19,7 +21,7 @@ data_dir = os.path.join(ROOT, "data", "processed")
 train_loader, val_loader, test_loader, class_names = get_data_loaders(
     data_dir=data_dir,
     batch_size=batch_size,
-    num_workers=0  #set to 0 for testing on cpu
+    num_workers=4  #set to 0 for testing on cpu
 )
 
 num_classes = len(class_names)
@@ -31,13 +33,24 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
 def train_one_epoch(model, dataloader, criterion, optimizer, device):
+
+    for images, labels in dataloader:
+        images = images.to(device)
+        labels = labels.to(device)
+
+        print("MODEL:", next(model.parameters()).device)
+        print("INPUT:", images.device)
+        print("LABELS:", labels.device)
+        break
+
     model.train()
     running_loss = 0.0
     correct = 0
     total = 0
 
     for batch_idx, (images, labels) in enumerate(dataloader):
-        images, labels = images.to(device), labels.to(device)
+        
+        images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
 
         optimizer.zero_grad()
         outputs = model(images)

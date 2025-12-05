@@ -99,7 +99,7 @@ def get_data_loaders(data_dir, batch_size=32, num_workers=4):
     print("\nLoading test data")
     test_dataset = datasets.ImageFolder(
         root = test_dir,
-        transform = get_train_transforms()
+        transform = get_test_transforms()
     )
 
     class_names = train_dataset.classes
