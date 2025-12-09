@@ -3,14 +3,22 @@ import torch
 from PIL import Image
 import os
 import sys
+import json
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(ROOT)
 
 from src.model import build_model
 from src.data_loader import get_test_transforms
+from src.nutrition_db import load_nutrition_csv, match_food_to_nutrition
 
 @st.cache_resource
+def load_nutrition_db():
+    path = os.path.join(ROOT, "data", "nutrition", "food_nutrition.json")
+    with open(path, "r") as f:
+        nutrition_db = json.load(f)
+    return nutrition_db
+
 def load_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -51,6 +59,7 @@ def main():
     st.write("Upload an image of food, and the model will predict what dish it is.")
 
     model, class_names, device = load_model()
+    nutrition_db = load_nutrition_db()
 
     uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
 
@@ -64,13 +73,22 @@ def main():
         # Preprocess
         image_tensor = preprocess_image(image)
 
-        # Predict
+        # Predict 
         with st.spinner("Classifying..."):
             label, conf = predict(model, device, image_tensor, class_names)
 
         st.subheader("Prediction")
         st.write(f"**Food Category:** `{label}`")
         st.write(f"**Confidence:** `{conf*100:.2f}%`")
+
+        st.subheader("Estimated nutritional information (per serving)")
+
+        info = nutrition_db.get(label)
+
+        if info is None:
+            st.write("Nutritional information not available for this item.")
+        else:
+            st.json(info)
 
 if __name__ == "__main__":
     main()
