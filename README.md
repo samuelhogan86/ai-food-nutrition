@@ -24,6 +24,10 @@ run python src/data_loader.py
 
 This will test the data loader and output an image visualization sample
 
+run streamlit app/streamlit_app.py
+
+This will allow user inteface to test model w/ an image
+
 
 ---
 
