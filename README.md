@@ -1,33 +1,56 @@
-Create a venv
+## 🚀 Project Setup Guide
 
+Follow the steps below to set up the environment, prepare the dataset, and run the application.
+
+### **1. Create a Virtual Environment**
+
+```bash
 python -m venv venv/
+```
 
-Run venv
+### **2. Activate the Virtual Environment**
 
+```bash
 venv/Scripts/activate
+```
 
-Install all packages
+### **3. Install Required Packages**
 
+```bash
 pip install -r requirements.txt
+```
 
-Download & setup dataset
+### **4. Download & Prepare the Dataset**
 
+Run the setup script to automatically download the **Food-41 dataset** into `data/raw/food41/`:
+
+```bash
 python src/setup_dataset.py
+```
 
-This will download food41 into data/raw/food41/
+### **5. Split the Dataset**
 
-run python src/split_dataset.py
+This will split the raw dataset into **train**, **test**, and **validation** sets:
 
-This will split raw data into train, test, and validation sets
+```bash
+python src/split_dataset.py
+```
 
-run python src/data_loader.py
+### **6. Test the Data Loader**
 
-This will test the data loader and output an image visualization sample
+This script will load sample batches and display an image visualization to confirm everything works correctly:
 
-run streamlit app/streamlit_app.py
+```bash
+python src/data_loader.py
+```
 
-This will allow user inteface to test model w/ an image
+### **7. Launch the Streamlit App**
 
+Start the user interface to test the model with uploaded images:
+
+```bash
+streamlit run app/streamlit_app.py
+```
 
 ---
 
