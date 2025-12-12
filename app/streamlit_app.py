@@ -10,7 +10,6 @@ sys.path.append(ROOT)
 
 from src.model import build_model
 from src.data_loader import get_test_transforms
-from src.nutrition_db import load_nutrition_csv, match_food_to_nutrition
 
 @st.cache_resource
 def load_nutrition_db():
@@ -65,7 +64,7 @@ def main():
 
     if uploaded_file is not None:
         # Display image
-        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+        st.image(uploaded_file, caption="Uploaded Image")
 
         # Convert to PIL
         image = Image.open(uploaded_file).convert("RGB")

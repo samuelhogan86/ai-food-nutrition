@@ -2,7 +2,7 @@
 Model definitions for the project.
 
 This file provides `BasicBlock` and `ResNet18` used by the training script.
-Keep this file minimal — training and data loading live in `train.py` and `data_loader.py`.
+--
 """
 import torch.nn as nn
 from torchvision.models import resnet18, ResNet18_Weights
